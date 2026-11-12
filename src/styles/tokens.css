@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  --mintcream: #F5FFFA;
+  --chocolate: #D2691E;
+  --chocolate-deep: #8B4513;
+  --chocolate-ink: #2E1A0F;
+  --text: var(--chocolate-ink);
+  --text-muted: #5A4636;
+  --mint-100: #EBF8F1;
+  --mint-200: #D9EEE2;
+  --line: rgba(139, 69, 19, 0.18);
+  --line-on-dark: rgba(245, 255, 250, 0.22);
+  --nav-bg: var(--chocolate);
+  --nav-text: var(--mintcream);
+  --font-heading: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --space-1: 0.25rem;  --space-2: 0.5rem;  --space-3: 0.75rem;
+  --space-4: 1rem;     --space-5: 1.5rem;  --space-6: 2rem;
+  --space-7: 3rem;     --space-8: 4rem;    --space-9: 6rem;
+  --section-y: clamp(4rem, 8vw, 7rem);
+  --container: 1200px;
+  --container-narrow: 760px;
+  --gutter: clamp(1.25rem, 4vw, 2rem);
+  --header-h: 76px;
+  --radius-sm: 2px;
+  --radius-md: 6px;
+  --shadow-float: 0 12px 32px rgba(46, 26, 15, 0.22);
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --dur-fast: 180ms;
+  --dur: 300ms;
+  --z-header: 800;
+  --z-floating: 900;
+  --z-overlay: 1000;
+  --z-sidebar: 1010;
+}
+@media (max-width: 991.98px) { :root { --header-h: 68px; } }

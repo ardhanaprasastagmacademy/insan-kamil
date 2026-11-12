@@ -1,0 +1,97 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+
+const programs = [
+  {
+    num: '01',
+    judul: 'Pelatihan Lapangan Kerja',
+    desc: 'Program pelatihan vokasional bersertifikat untuk mempersiapkan pemuda siap kerja dan berwirausaha di berbagai bidang. Pelatihan berlangsung langsung di lapangan dengan mentor berpengalaman.',
+    href: '/program/pelatihan-kerja/',
+    items: ['Menjahit Profesional', 'Tata Boga dan Katering', 'Pertanian dan Pembibitan'],
+  },
+  {
+    num: '02',
+    judul: 'Peternakan Domba',
+    desc: 'Peternakan domba modern dengan kandang higienis. Menyediakan domba berkualitas untuk keperluan kurban, aqiqah, bibit, dan potong. Layanan antar tersedia untuk area tertentu.',
+    href: '/program/peternakan-domba/',
+    items: ['Domba Garut', 'Domba Ekor Tipis', 'Domba Merino', 'Layanan Kurban & Aqiqah'],
+  },
+  {
+    num: '03',
+    judul: 'Katering Halal',
+    desc: 'Layanan katering untuk berbagai acara dengan bahan segar dan pengolahan higienis. Tersedia paket nasi box, prasmanan, tumpeng, snack box, dan katering harian.',
+    href: '/program/katering/',
+    items: ['Nasi Box', 'Prasmanan', 'Tumpeng', 'Snack Box'],
+  },
+  {
+    num: '04',
+    judul: 'Bibit Alpukat Unggul',
+    desc: 'Bibit alpukat okulasi dan sambung pucuk dari varietas unggulan. Siap tanam, kualitas terjamin, tersedia dalam jumlah satuan maupun partai besar.',
+    href: '/program/bibit-alpukat/',
+    items: ['Alpukat Aligator', 'Alpukat Miki', 'Alpukat Kendil', 'Pemesanan Partai'],
+  },
+];
+---
+<BaseLayout title="Program" description="Empat program dan unit usaha Pondok Pesantren Insan Kamil: Pelatihan Kerja, Peternakan Domba, Katering, dan Bibit Alpukat.">
+  <div class="container" style="padding-top:var(--space-4);">
+    <Breadcrumb items={[{ label: 'Program' }]} />
+  </div>
+
+  <section>
+    <div class="container">
+      <span class="eyebrow">Unit Usaha dan Program</span>
+      <h1>Program Pondok Pesantren Insan Kamil</h1>
+      <span style="display:block;width:48px;height:2px;background:var(--chocolate);margin:var(--space-3) 0 var(--space-5);max-width:48px;"></span>
+      <p style="max-width:60ch;color:var(--text-muted);font-size:1.0625rem;">Empat program unggulan yang saling melengkapi — dari pendidikan vokasional hingga unit usaha produktif yang memberikan manfaat nyata bagi santri dan masyarakat.</p>
+    </div>
+  </section>
+
+  {programs.map((p, i) => (
+    <section class={i % 2 !== 0 ? 'bg-mint' : ''}>
+      <div class="container">
+        <div class={`program-block ${i % 2 !== 0 ? 'program-block-reverse' : ''}`}>
+          <div class="program-visual">
+            <div class="program-img-placeholder" role="img" aria-label={p.judul}></div>
+          </div>
+          <div class="program-content">
+            <p class="program-num-big">{p.num}</p>
+            <h2>{p.judul}</h2>
+            <span style="display:block;width:48px;height:2px;background:var(--chocolate);margin:var(--space-3) 0 var(--space-4);"></span>
+            <p>{p.desc}</p>
+            <ul class="program-items">
+              {p.items.map(item => <li>{item}</li>)}
+            </ul>
+            <a href={p.href} class="btn btn-primary" style="margin-top:var(--space-5);">Lihat Detail</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section class="bg-dark">
+    <div class="container cta-center">
+      <span class="eyebrow" style="color:rgba(245,255,250,0.7)">Mulai Sekarang</span>
+      <h2 style="color:var(--mintcream)">Siap Memulai?</h2>
+      <span style="display:block;width:48px;height:2px;background:var(--mintcream);margin:var(--space-3) auto var(--space-5);"></span>
+      <p style="color:rgba(245,255,250,0.85);max-width:50ch;margin:0 auto var(--space-6);">Hubungi kami melalui WhatsApp untuk konsultasi atau pemesanan langsung.</p>
+      <a href="/kontak/" class="btn btn-on-dark">Hubungi Kami</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+.program-block { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-9); align-items: center; }
+.program-block-reverse .program-visual { order: 2; }
+.program-block-reverse .program-content { order: 1; }
+.program-img-placeholder { width: 100%; aspect-ratio: 4/3; background: var(--mint-200); border-radius: var(--radius-md); }
+.program-num-big { font-family: var(--font-heading); font-size: 4rem; color: var(--chocolate); line-height: 1; margin: 0 0 var(--space-3); }
+.program-content h2 { font-size: clamp(1.5rem, 2vw, 2.25rem); }
+.program-items { margin: var(--space-4) 0 0; padding-left: var(--space-4); color: var(--text-muted); }
+.program-items li { margin-bottom: var(--space-1); font-size: 0.9375rem; }
+.cta-center { text-align: center; }
+@media (max-width: 991.98px) {
+  .program-block { grid-template-columns: 1fr; }
+  .program-block-reverse .program-visual, .program-block-reverse .program-content { order: unset; }
+}
+</style>

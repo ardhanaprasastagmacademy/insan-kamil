@@ -1,0 +1,147 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+
+const fasilitas = [
+  { nama: 'Asrama Santri', desc: 'Asrama putra dan putri yang bersih dan nyaman untuk 500+ santri.' },
+  { nama: 'Masjid', desc: 'Masjid pesantren sebagai pusat ibadah dan kegiatan keagamaan.' },
+  { nama: 'Kandang Ternak', desc: 'Kandang domba modern berkapasitas 100+ ekor dengan sistem higienis.' },
+  { nama: 'Dapur Katering', desc: 'Dapur profesional bersertifikat yang digunakan untuk pelatihan dan produksi katering.' },
+  { nama: 'Lahan Pembibitan', desc: 'Lahan 1 hektar untuk budidaya dan pembibitan alpukat berbagai varietas.' },
+  { nama: 'Ruang Pelatihan', desc: 'Ruang workshop lengkap dengan peralatan untuk pelatihan menjahit, tata boga, dan lainnya.' },
+];
+
+const pengurus = [
+  { nama: 'KH. Abdullah Syafi\'i', jabatan: 'Pengasuh Utama', bio: 'Pendiri dan pengasuh Pondok Pesantren Insan Kamil sejak 2010.' },
+  { nama: 'Ustadz Ahmad Fauzi, S.Pd.I', jabatan: 'Direktur Program', bio: 'Bertanggung jawab atas seluruh program pelatihan dan unit usaha.' },
+  { nama: 'Ustadzah Siti Maryam, M.Pd', jabatan: 'Kepala Pendidikan', bio: 'Mengelola kurikulum dan tenaga pengajar pesantren.' },
+];
+---
+<BaseLayout title="Tentang Kami" description="Sejarah, visi, misi, pengasuh, dan fasilitas Pondok Pesantren Insan Kamil.">
+  <div class="container" style="padding-top:var(--space-4);">
+    <Breadcrumb items={[{ label: 'Tentang Kami' }]} />
+  </div>
+
+  <!-- Judul Halaman -->
+  <section>
+    <div class="container-narrow">
+      <span class="eyebrow">Tentang Kami</span>
+      <h1>Pondok Pesantren Insan Kamil</h1>
+      <span style="display:block;width:48px;height:2px;background:var(--chocolate);margin:var(--space-3) 0 var(--space-5);"></span>
+      <p class="lead-text">Lembaga pendidikan Islam terpadu yang telah hadir selama lebih dari 15 tahun, membentuk generasi Muslim yang berilmu, berakhlak, dan mandiri secara ekonomi.</p>
+    </div>
+  </section>
+
+  <!-- Sejarah -->
+  <section class="bg-mint">
+    <div class="container-narrow">
+      <span class="eyebrow">Sejarah</span>
+      <h2>Perjalanan Kami</h2>
+      <span style="display:block;width:48px;height:2px;background:var(--chocolate);margin:var(--space-3) 0 var(--space-5);"></span>
+      <p>Pondok Pesantren Insan Kamil didirikan pada tahun 2010 oleh KH. Abdullah Syafi'i dengan visi sederhana namun mulia: mencetak generasi Muslim yang tidak hanya saleh secara spiritual, tetapi juga mandiri secara ekonomi.</p>
+      <p>Dimulai dari 30 santri dan sebuah lahan sederhana, pesantren ini berkembang menjadi lembaga terpadu yang menggabungkan pendidikan agama dengan pelatihan keterampilan nyata. Pada tahun 2015, unit usaha peternakan domba mulai beroperasi, diikuti katering pada 2017, pembibitan alpukat pada 2019, dan program pelatihan kerja formal pada 2020.</p>
+      <p>Hingga kini, lebih dari 500 santri aktif belajar di sini, dan lebih dari 200 alumni program pelatihan telah berhasil mendapatkan pekerjaan atau memulai usaha sendiri.</p>
+    </div>
+  </section>
+
+  <!-- Visi & Misi -->
+  <section>
+    <div class="container">
+      <div class="visi-misi-grid">
+        <div class="vm-card">
+          <p class="vm-num">01</p>
+          <h2>Visi</h2>
+          <p>Menjadi lembaga pendidikan Islam terpercaya yang melahirkan generasi Muslim berakhlak mulia, berdaya secara ilmu dan keterampilan, serta memberikan kontribusi nyata bagi masyarakat dan bangsa.</p>
+        </div>
+        <div class="vm-card vm-card-alt">
+          <p class="vm-num" style="color:rgba(245,255,250,0.5)">02</p>
+          <h2 style="color:var(--mintcream)">Misi</h2>
+          <ul style="color:rgba(245,255,250,0.9);padding-left:var(--space-5);">
+            <li>Menyelenggarakan pendidikan Islam yang berkualitas dan komprehensif</li>
+            <li>Membekali santri dengan keterampilan vokasional yang relevan dengan kebutuhan industri</li>
+            <li>Mengelola unit usaha sebagai laboratorium wirausaha berbasis nilai Islam</li>
+            <li>Membangun jaringan alumni yang solid untuk penyaluran kerja dan kewirausahaan</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pengasuh & Pengurus -->
+  <section class="bg-mint">
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow">Kepemimpinan</span>
+        <h2>Pengasuh dan Pengurus</h2>
+        <span class="accent-line"></span>
+      </div>
+      <div class="pengurus-grid">
+        {pengurus.map(p => (
+          <div class="pengurus-card">
+            <div class="pengurus-avatar" role="img" aria-label={`Foto ${p.nama}`}></div>
+            <h3>{p.nama}</h3>
+            <p class="pengurus-jabatan">{p.jabatan}</p>
+            <p class="pengurus-bio">{p.bio}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Fasilitas -->
+  <section>
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow">Infrastruktur</span>
+        <h2>Fasilitas Pesantren</h2>
+        <span class="accent-line"></span>
+      </div>
+      <div class="fasilitas-grid">
+        {fasilitas.map((f, i) => (
+          <div class="fasilitas-item">
+            <p class="fasilitas-num">{String(i + 1).padStart(2, '0')}</p>
+            <h3>{f.nama}</h3>
+            <p>{f.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-dark">
+    <div class="container cta-center">
+      <span class="eyebrow" style="color:rgba(245,255,250,0.7)">Hubungi Kami</span>
+      <h2 style="color:var(--mintcream)">Ingin Tahu Lebih Lanjut?</h2>
+      <span style="display:block;width:48px;height:2px;background:var(--mintcream);margin:var(--space-3) auto var(--space-5);"></span>
+      <a href="/kontak/" class="btn btn-on-dark">Hubungi Kami</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+.lead-text { font-size: 1.125rem; color: var(--text-muted); line-height: 1.75; }
+.visi-misi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); }
+.vm-card { padding: var(--space-7); border: 1px solid var(--line); border-radius: var(--radius-md); }
+.vm-card-alt { background: var(--chocolate-deep); border-color: transparent; }
+.vm-num { font-family: var(--font-heading); font-size: 3rem; color: var(--chocolate); line-height: 1; margin: 0 0 var(--space-3); }
+.vm-card h2 { font-size: clamp(1.5rem, 2vw, 2rem); margin-bottom: var(--space-4); }
+.pengurus-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+.pengurus-card { text-align: center; padding: var(--space-6); background: var(--mintcream); border: 1px solid var(--line); border-radius: var(--radius-md); }
+.pengurus-avatar { width: 80px; height: 80px; border-radius: 50%; background: var(--mint-200); border: 1px solid var(--line); margin: 0 auto var(--space-4); }
+.pengurus-card h3 { font-size: 1.125rem; margin-bottom: var(--space-1); }
+.pengurus-jabatan { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--chocolate-deep); margin: 0 0 var(--space-3); }
+.pengurus-bio { font-size: 0.875rem; color: var(--text-muted); margin: 0; }
+.fasilitas-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+.fasilitas-item { padding: var(--space-5); border: 1px solid var(--line); border-radius: var(--radius-md); }
+.fasilitas-num { font-family: var(--font-heading); font-size: 2rem; color: var(--chocolate); line-height: 1; margin: 0 0 var(--space-3); }
+.fasilitas-item h3 { font-size: 1.125rem; margin-bottom: var(--space-2); }
+.fasilitas-item p { font-size: 0.9375rem; color: var(--text-muted); margin: 0; }
+.cta-center { text-align: center; }
+@media (max-width: 991.98px) {
+  .visi-misi-grid, .pengurus-grid, .fasilitas-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 575.98px) {
+  .visi-misi-grid, .pengurus-grid, .fasilitas-grid { grid-template-columns: 1fr; }
+}
+</style>

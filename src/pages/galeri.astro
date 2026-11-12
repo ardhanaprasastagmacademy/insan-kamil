@@ -1,0 +1,84 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+
+const categories = ['Semua', 'Pesantren', 'Pelatihan', 'Domba', 'Katering', 'Alpukat'];
+const items = [
+  { cat: 'Pesantren', alt: 'Suasana pesantren' },
+  { cat: 'Pelatihan', alt: 'Kegiatan pelatihan menjahit' },
+  { cat: 'Domba', alt: 'Kandang domba pesantren' },
+  { cat: 'Katering', alt: 'Dapur katering pesantren' },
+  { cat: 'Alpukat', alt: 'Kebun bibit alpukat' },
+  { cat: 'Pesantren', alt: 'Masjid pesantren' },
+  { cat: 'Pelatihan', alt: 'Pelatihan tata boga' },
+  { cat: 'Domba', alt: 'Domba Garut jantan' },
+  { cat: 'Katering', alt: 'Paket nasi box' },
+  { cat: 'Alpukat', alt: 'Bibit alpukat siap tanam' },
+  { cat: 'Pesantren', alt: 'Asrama santri' },
+  { cat: 'Pelatihan', alt: 'Pelatihan pertanian' },
+];
+---
+<BaseLayout title="Galeri" description="Galeri foto kegiatan Pondok Pesantren Insan Kamil — pesantren, pelatihan, domba, katering, dan alpukat.">
+  <div class="container" style="padding-top:var(--space-4);">
+    <Breadcrumb items={[{ label: 'Galeri' }]} />
+  </div>
+  <section>
+    <div class="container">
+      <div class="section-heading" style="text-align:left;">
+        <span class="eyebrow">Dokumentasi</span>
+        <h1>Galeri Foto</h1>
+        <span style="display:block;width:48px;height:2px;background:var(--chocolate);margin:var(--space-3) 0 var(--space-5);"></span>
+      </div>
+
+      <div class="filter-bar" role="group" aria-label="Filter galeri">
+        {categories.map(cat => (
+          <button class={`filter-btn ${cat === 'Semua' ? 'is-active' : ''}`} data-filter={cat} type="button">{cat}</button>
+        ))}
+      </div>
+
+      <div class="gallery-grid" id="gallery-grid">
+        {items.map((item, i) => (
+          <figure class="gallery-item" data-category={item.cat} data-index={i}>
+            <div class="gallery-img-placeholder" role="img" aria-label={item.alt}></div>
+            <figcaption>{item.alt}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+.filter-bar { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-bottom: var(--space-7); }
+.filter-btn { background: transparent; border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 8px 20px; font-family: var(--font-body); font-size: 0.9375rem; font-weight: 500; color: var(--text-muted); cursor: pointer; transition: all var(--dur-fast) var(--ease); }
+.filter-btn:hover { border-color: var(--chocolate-deep); color: var(--chocolate-deep); }
+.filter-btn.is-active { background: var(--chocolate-deep); color: var(--mintcream); border-color: var(--chocolate-deep); font-weight: 700; }
+.gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); }
+.gallery-item { margin: 0; cursor: pointer; overflow: hidden; border-radius: var(--radius-sm); border: 1px solid var(--line); }
+.gallery-item[hidden] { display: none; }
+.gallery-img-placeholder { width: 100%; aspect-ratio: 4/3; background: var(--mint-200); transition: transform var(--dur) var(--ease); }
+.gallery-item:hover .gallery-img-placeholder { transform: scale(1.03); }
+figcaption { padding: var(--space-3); font-size: 0.8125rem; color: var(--text-muted); background: var(--mintcream); }
+@media (max-width: 767.98px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 575.98px) { .gallery-grid { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+const items = document.querySelectorAll<HTMLElement>('.gallery-item');
+
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('is-active'));
+    btn.classList.add('is-active');
+    const filter = btn.dataset.filter;
+    items.forEach(item => {
+      if (filter === 'Semua' || item.dataset.category === filter) {
+        item.removeAttribute('hidden');
+      } else {
+        item.setAttribute('hidden', '');
+      }
+    });
+  });
+});
+</script>

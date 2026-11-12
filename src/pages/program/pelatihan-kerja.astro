@@ -1,0 +1,190 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { getCollection } from 'astro:content';
+
+const pelatihans = (await getCollection('pelatihan')).sort((a, b) => a.data.urutan - b.data.urutan);
+
+const alur = [
+  { num: '01', judul: 'Hubungi Kami', desc: 'Kirim pesan WhatsApp atau isi form di halaman Kontak untuk menyatakan minat.' },
+  { num: '02', judul: 'Konsultasi', desc: 'Tim kami menjelaskan detail program, jadwal, biaya, dan menjawab pertanyaan Anda.' },
+  { num: '03', judul: 'Verifikasi', desc: 'Penuhi syarat administrasi dan lakukan registrasi resmi.' },
+  { num: '04', judul: 'Mulai Pelatihan', desc: 'Ikuti program pelatihan intensif langsung bersama mentor berpengalaman.' },
+];
+
+const faqs = [
+  { q: 'Apakah pelatihan ini gratis?', a: 'Sebagian program gratis dan didukung beasiswa. Sebagian lainnya dikenakan biaya yang terjangkau. Cek detail pada masing-masing program di atas.' },
+  { q: 'Apakah sertifikat diakui oleh industri?', a: 'Ya, sertifikat dari pelatihan kami diakui oleh mitra industri kami dan dapat digunakan untuk melamar pekerjaan.' },
+  { q: 'Berapa lama program pelatihan berlangsung?', a: 'Durasi bervariasi dari 2 hingga 3 bulan tergantung program. Jadwal dapat disesuaikan untuk peserta dari luar kota.' },
+  { q: 'Apakah ada asrama untuk peserta pelatihan?', a: 'Ya, peserta yang memerlukan akomodasi dapat tinggal di asrama pesantren dengan biaya sangat terjangkau.' },
+  { q: 'Apakah ada jaminan pekerjaan setelah lulus?', a: 'Kami memiliki jaringan mitra industri untuk penyaluran kerja. Namun tidak ada jaminan absolut — kami membantu menghubungkan dan merekomendasikan alumni terbaik.' },
+];
+---
+<BaseLayout title="Pelatihan Lapangan Kerja" description="Program pelatihan kerja vokasional bersertifikat di Pondok Pesantren Insan Kamil. Menjahit, tata boga, pertanian, dan lainnya.">
+  <div class="container" style="padding-top:var(--space-4);">
+    <Breadcrumb items={[{ label: 'Program', href: '/program/' }, { label: 'Pelatihan Kerja' }]} />
+  </div>
+
+  <section>
+    <div class="container">
+      <span class="eyebrow">Program Pelatihan</span>
+      <h1>Pelatihan Lapangan Kerja</h1>
+      <span style="display:block;width:48px;height:2px;background:var(--chocolate);margin:var(--space-3) 0 var(--space-5);"></span>
+      <p class="answer-box">Pondok Pesantren Insan Kamil menyediakan pelatihan keterampilan vokasional langsung di lapangan — menjahit, tata boga, dan pertanian — dengan sertifikat yang diakui industri. Program terbuka untuk pemuda usia 15–45 tahun, baik peserta mukim maupun luar kota.</p>
+    </div>
+  </section>
+
+  <section class="bg-mint">
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow">Daftar Kelas</span>
+        <h2>Program yang Tersedia</h2>
+        <span class="accent-line"></span>
+      </div>
+      <div class="kelas-grid">
+        {pelatihans.map(p => (
+          <article class="kelas-card">
+            <div class="kelas-img" role="img" aria-label={p.data.judul}></div>
+            <div class="kelas-body">
+              <h3>{p.data.judul}</h3>
+              <p class="kelas-ringkasan">{p.data.ringkasan}</p>
+              <dl class="kelas-meta">
+                <div><dt>Durasi</dt><dd>{p.data.durasi}</dd></div>
+                <div><dt>Kuota</dt><dd>{p.data.kuota} peserta</dd></div>
+                <div><dt>Biaya</dt><dd>{p.data.biaya}</dd></div>
+                <div><dt>Sertifikat</dt><dd>{p.data.sertifikat ? 'Ya' : 'Tidak'}</dd></div>
+              </dl>
+              {p.data.syarat.length > 0 && (
+                <div class="kelas-syarat">
+                  <p class="syarat-label">Syarat</p>
+                  <ul>{p.data.syarat.map(s => <li>{s}</li>)}</ul>
+                </div>
+              )}
+              <a href={`https://wa.me/6281234567890?text=${encodeURIComponent(`Assalamu'alaikum, saya ingin mendaftar ${p.data.judul} dari website Pondok Pesantren Insan Kamil.`)}`}
+                 class="btn btn-primary" target="_blank" rel="noopener" style="margin-top:var(--space-4);width:100%;justify-content:center;">
+                Daftar Pelatihan Ini
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Alur Pendaftaran -->
+  <section>
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow">Cara Mendaftar</span>
+        <h2>Alur Pendaftaran</h2>
+        <span class="accent-line"></span>
+      </div>
+      <div class="alur-list">
+        {alur.map((step, i) => (
+          <div class="alur-item">
+            <div class="alur-left">
+              <p class="alur-num">{step.num}</p>
+              {i < alur.length - 1 && <div class="alur-line"></div>}
+            </div>
+            <div class="alur-content">
+              <h3>{step.judul}</h3>
+              <p>{step.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style="margin-top:var(--space-7);text-align:center;">
+        <a href={`https://wa.me/6281234567890?text=${encodeURIComponent("Assalamu'alaikum, saya ingin mengetahui informasi pelatihan kerja dari website Pondok Pesantren Insan Kamil.")}`}
+           class="btn btn-primary" target="_blank" rel="noopener">Hubungi untuk Mendaftar</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="bg-mint">
+    <div class="container container-narrow">
+      <div class="section-heading">
+        <span class="eyebrow">Pertanyaan Umum</span>
+        <h2>FAQ Pelatihan</h2>
+        <span class="accent-line"></span>
+      </div>
+      <div class="faq-list" id="faq-pelatihan">
+        {faqs.map((faq, i) => (
+          <div class="faq-item">
+            <button class="faq-btn" type="button" aria-expanded="false" aria-controls={`faq-answer-${i}`}>
+              <span>{faq.q}</span>
+              <span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-answer" id={`faq-answer-${i}`} role="region" hidden>
+              <p>{faq.a}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-dark">
+    <div class="container cta-center">
+      <span class="eyebrow" style="color:rgba(245,255,250,0.7)">Daftar Sekarang</span>
+      <h2 style="color:var(--mintcream)">Siap Tingkatkan Kemampuanmu?</h2>
+      <span style="display:block;width:48px;height:2px;background:var(--mintcream);margin:var(--space-3) auto var(--space-5);"></span>
+      <a href={`https://wa.me/6281234567890?text=${encodeURIComponent("Assalamu'alaikum, saya ingin mengetahui jadwal pelatihan kerja dari website Pondok Pesantren Insan Kamil.")}`}
+         class="btn btn-on-dark" target="_blank" rel="noopener">Tanya Jadwal via WhatsApp</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+.answer-box { font-size: 1.0625rem; max-width: 70ch; color: var(--text-muted); background: var(--mint-100); border-left: 3px solid var(--chocolate); padding: var(--space-5); border-radius: 0 var(--radius-md) var(--radius-md) 0; }
+.kelas-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+.kelas-card { background: var(--mintcream); border: 1px solid var(--line); border-radius: var(--radius-md); overflow: hidden; }
+.kelas-img { width: 100%; aspect-ratio: 4/3; background: var(--mint-200); }
+.kelas-body { padding: var(--space-5); }
+.kelas-card h3 { font-size: 1.25rem; margin-bottom: var(--space-3); }
+.kelas-ringkasan { font-size: 0.9375rem; color: var(--text-muted); margin-bottom: var(--space-4); }
+.kelas-meta { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2) var(--space-4); margin: 0 0 var(--space-4); font-size: 0.875rem; }
+.kelas-meta dt { color: var(--text-muted); }
+.kelas-meta dd { margin: 0; font-weight: 600; color: var(--chocolate-ink); }
+.kelas-meta div { display: flex; flex-direction: column; gap: 2px; }
+.syarat-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--chocolate-deep); margin: 0 0 var(--space-2); }
+.kelas-syarat ul { margin: 0; padding-left: var(--space-5); font-size: 0.875rem; color: var(--text-muted); }
+.kelas-syarat li { margin-bottom: var(--space-1); }
+
+.alur-list { max-width: 600px; margin: 0 auto; }
+.alur-item { display: flex; gap: var(--space-5); }
+.alur-left { display: flex; flex-direction: column; align-items: center; }
+.alur-num { font-family: var(--font-heading); font-size: 2.5rem; font-weight: 600; color: var(--chocolate); line-height: 1; margin: 0; }
+.alur-line { width: 1px; height: 60px; background: var(--line); margin: var(--space-3) 0; }
+.alur-content { padding-top: var(--space-1); padding-bottom: var(--space-7); }
+.alur-content h3 { font-size: 1.25rem; margin-bottom: var(--space-2); }
+.alur-content p { color: var(--text-muted); font-size: 0.9375rem; margin: 0; }
+
+.faq-list { border-top: 1px solid var(--line); }
+.faq-item { border-bottom: 1px solid var(--line); }
+.faq-btn { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); padding: var(--space-5) 0; background: transparent; border: 0; text-align: left; font-family: var(--font-body); font-size: 1rem; font-weight: 600; color: var(--chocolate-ink); cursor: pointer; }
+.faq-icon { position: relative; width: 20px; height: 20px; flex-shrink: 0; }
+.faq-icon::before, .faq-icon::after { content: ''; position: absolute; top: 50%; left: 50%; background: var(--chocolate-deep); border-radius: 1px; transform: translate(-50%, -50%); transition: transform var(--dur) var(--ease), opacity var(--dur); }
+.faq-icon::before { width: 16px; height: 1.5px; }
+.faq-icon::after { width: 1.5px; height: 16px; }
+.faq-btn[aria-expanded='true'] .faq-icon::after { transform: translate(-50%, -50%) rotate(90deg); opacity: 0; }
+.faq-answer { padding-bottom: var(--space-5); }
+.faq-answer p { margin: 0; color: var(--text-muted); font-size: 0.9375rem; }
+.cta-center { text-align: center; }
+
+@media (max-width: 991.98px) { .kelas-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 575.98px) { .kelas-grid { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+document.querySelectorAll<HTMLButtonElement>('.faq-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const expanded = btn.getAttribute('aria-expanded') === 'true';
+    const answerId = btn.getAttribute('aria-controls')!;
+    const answer = document.getElementById(answerId)!;
+    btn.setAttribute('aria-expanded', String(!expanded));
+    if (expanded) { answer.setAttribute('hidden', ''); }
+    else { answer.removeAttribute('hidden'); }
+  });
+});
+</script>

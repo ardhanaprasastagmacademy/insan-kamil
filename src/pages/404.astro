@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="404 — Halaman Tidak Ditemukan" description="Halaman yang Anda cari tidak ditemukan.">
+  <section class="not-found">
+    <div class="container not-found-inner">
+      <p class="not-found-num">404</p>
+      <p class="not-found-msg">Halaman yang Anda cari tidak ditemukan.</p>
+      <a href="/" class="btn btn-primary">Kembali ke Beranda</a>
+    </div>
+  </section>
+</BaseLayout>
+<style>
+.not-found { min-height: calc(100vh - var(--header-h) - 300px); display: flex; align-items: center; }
+.not-found-inner { text-align: center; }
+.not-found-num { font-family: var(--font-heading); font-size: clamp(6rem, 15vw, 12rem); font-weight: 700; color: var(--chocolate); line-height: 1; margin: 0 0 var(--space-5); }
+.not-found-msg { font-size: 1.25rem; color: var(--text-muted); margin-bottom: var(--space-7); }
+</style>

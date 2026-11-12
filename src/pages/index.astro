@@ -1,0 +1,273 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const blogs = (await getCollection('blog'))
+  .sort((a, b) => b.data.tanggal.getTime() - a.data.tanggal.getTime())
+  .slice(0, 3);
+
+const programs = [
+  { num: '01', judul: 'Pelatihan Lapangan Kerja', desc: 'Program pelatihan vokasional bersertifikat untuk mempersiapkan pemuda siap kerja dan berwirausaha.', href: '/program/pelatihan-kerja/' },
+  { num: '02', judul: 'Peternakan Domba', desc: 'Domba Garut dan lokal berkualitas untuk kurban, aqiqah, bibit, dan potong. Kandang modern, perawatan higienis.', href: '/program/peternakan-domba/' },
+  { num: '03', judul: 'Katering Halal', desc: 'Layanan katering untuk berbagai acara: nasi box, prasmanan, tumpeng, dan katering harian. Bahan segar, halal, higienis.', href: '/program/katering/' },
+  { num: '04', judul: 'Bibit Alpukat Unggul', desc: 'Bibit alpukat okulasi dan sambung pucuk dari varietas unggul. Siap tanam, terjamin kualitasnya.', href: '/program/bibit-alpukat/' },
+];
+
+const stats = [
+  { angka: '500+', label: 'Santri Aktif' },
+  { angka: '200+', label: 'Alumni Pelatihan' },
+  { angka: '4', label: 'Unit Usaha' },
+  { angka: '15+', label: 'Tahun Berdiri' },
+];
+
+const keunggulan = [
+  { num: '01', judul: 'Berbasis Nilai Islam', desc: 'Seluruh kegiatan usaha dan pelatihan dilandasi nilai kejujuran, amanah, dan kesungguhan sesuai ajaran Islam.' },
+  { num: '02', judul: 'Praktis dan Tersertifikasi', desc: 'Pelatihan langsung di lapangan, bukan hanya teori. Alumni mendapat sertifikat yang diakui industri.' },
+  { num: '03', judul: 'Produk Berkualitas Terukur', desc: 'Domba, katering, dan bibit diproduksi dengan standar kebersihan dan kualitas yang konsisten.' },
+];
+
+const testimonials = [
+  { kutipan: 'Setelah mengikuti pelatihan menjahit di Insan Kamil, saya bisa membuka usaha konveksi kecil sendiri.', nama: 'Siti Rahma', peran: 'Alumni Pelatihan Menjahit 2025' },
+  { kutipan: 'Domba dari pesantren sehat dan bobotnya sesuai. Sudah dua tahun berturut-turut kami kurban dari sini.', nama: 'Pak Hendra', peran: 'Pelanggan Domba Kurban' },
+  { kutipan: 'Katering pesantren terpercaya untuk acara kantor kami. Rasa enak, tepat waktu, dan harga terjangkau.', nama: 'Bu Lestari', peran: 'Pemesan Katering Instansi' },
+];
+---
+<BaseLayout title="Beranda" description="Pondok Pesantren Insan Kamil — Pelatihan Kerja, Peternakan Domba, Katering Halal, dan Bibit Alpukat Unggul.">
+
+  <!-- Hero -->
+  <section class="hero-section">
+    <div class="container hero-inner">
+      <div class="hero-text">
+        <span class="eyebrow">Pondok Pesantren Insan Kamil</span>
+        <h1 class="hero-title">Membentuk Generasi Berakhlak, Berdaya, dan Mandiri</h1>
+        <p class="hero-desc">Lembaga pendidikan Islam terpadu dengan program pelatihan kerja vokasional, peternakan domba, katering halal, dan pembibitan alpukat unggul.</p>
+        <div class="hero-actions">
+          <a href="/program/" class="btn btn-primary">Lihat Program</a>
+          <a href="/kontak/" class="btn btn-secondary">Hubungi Kami</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-frame">
+          <div class="hero-img-placeholder" role="img" aria-label="Suasana Pondok Pesantren Insan Kamil"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Profil Singkat & Statistik -->
+  <section class="bg-mint">
+    <div class="container">
+      <div class="profile-grid">
+        <div class="profile-text">
+          <span class="eyebrow">Tentang Kami</span>
+          <h2>Pesantren yang Tumbuh Bersama Masyarakat</h2>
+          <span class="accent-line" style="display:block;width:48px;height:2px;background:var(--chocolate);margin:var(--space-3) 0 var(--space-4);"></span>
+          <p>Pondok Pesantren Insan Kamil berdiri lebih dari 15 tahun lalu dengan misi mencetak generasi Muslim yang berilmu, berakhlak mulia, dan memiliki keterampilan nyata untuk hidup mandiri.</p>
+          <p>Selain pendidikan agama, kami mengelola empat unit usaha yang menjadi laboratorium hidup bagi santri sekaligus memberikan manfaat nyata bagi masyarakat sekitar.</p>
+          <a href="/tentang/" class="btn btn-secondary" style="margin-top:var(--space-3);">Selengkapnya</a>
+        </div>
+        <div class="stats-grid">
+          {stats.map(s => (
+            <div class="stat-item">
+              <p class="stat-angka">{s.angka}</p>
+              <p class="stat-label">{s.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 Kartu Program -->
+  <section>
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow">Unit Usaha dan Program</span>
+        <h2>Empat Program Unggulan</h2>
+        <span class="accent-line"></span>
+        <p>Setiap program dirancang untuk memberikan nilai nyata — bagi santri, alumni, maupun masyarakat yang membutuhkan produk dan layanan kami.</p>
+      </div>
+      <div class="programs-grid">
+        {programs.map(p => (
+          <article class="program-card">
+            <p class="program-num">{p.num}</p>
+            <h3>{p.judul}</h3>
+            <p class="program-desc">{p.desc}</p>
+            <a href={p.href} class="program-link">Selengkapnya</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Keunggulan -->
+  <section class="bg-mint">
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow">Mengapa Insan Kamil</span>
+        <h2>Keunggulan yang Kami Jaga</h2>
+        <span class="accent-line"></span>
+      </div>
+      <div class="keunggulan-list">
+        {keunggulan.map(k => (
+          <div class="keunggulan-item">
+            <p class="keunggulan-num">{k.num}</p>
+            <div class="keunggulan-body">
+              <div class="keunggulan-line"></div>
+              <h3>{k.judul}</h3>
+              <p>{k.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimoni -->
+  <section>
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow">Kata Mereka</span>
+        <h2>Kepercayaan yang Kami Jaga</h2>
+        <span class="accent-line"></span>
+      </div>
+      <div class="testi-grid">
+        {testimonials.map(t => (
+          <figure class="testi-card">
+            <blockquote class="testi-quote"><p>{t.kutipan}</p></blockquote>
+            <figcaption>
+              <p class="testi-nama">{t.nama}</p>
+              <p class="testi-peran">{t.peran}</p>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Artikel Terbaru -->
+  {blogs.length > 0 && (
+    <section class="bg-mint">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">Blog dan Artikel</span>
+          <h2>Informasi Terkini</h2>
+          <span class="accent-line"></span>
+        </div>
+        <div class="blog-grid">
+          {blogs.map(post => (
+            <article class="blog-card">
+              <div class="blog-img-placeholder" role="img" aria-label={post.data.judul}></div>
+              <div class="blog-body">
+                <span class="eyebrow" style="font-size:0.7rem">{post.data.kategori}</span>
+                <h3><a href={`/blog/${post.id}/`}>{post.data.judul}</a></h3>
+                <p class="blog-desc">{post.data.deskripsi}</p>
+                <p class="blog-meta">{post.data.tanggal.toLocaleDateString('id-ID', {day:'numeric',month:'long',year:'numeric'})}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+        <div style="text-align:center;margin-top:var(--space-7);">
+          <a href="/blog/" class="btn btn-secondary">Lihat Semua Artikel</a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- CTA Penutup -->
+  <section class="bg-dark">
+    <div class="container cta-section">
+      <div class="section-heading">
+        <span class="eyebrow" style="color:rgba(245,255,250,0.7)">Mulai Sekarang</span>
+        <h2 style="color:var(--mintcream)">Ada yang Bisa Kami Bantu?</h2>
+        <span class="accent-line" style="background:var(--mintcream)"></span>
+        <p style="color:rgba(245,255,250,0.85)">Hubungi kami lewat WhatsApp untuk informasi pelatihan, pemesanan domba, katering, atau bibit alpukat.</p>
+      </div>
+      <div style="display:flex;gap:var(--space-4);justify-content:center;flex-wrap:wrap;">
+        <a href="https://wa.me/6281234567890" class="btn btn-on-dark" target="_blank" rel="noopener">Hubungi via WhatsApp</a>
+        <a href="/program/" class="btn btn-on-dark">Lihat Program Kami</a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+/* Hero */
+.hero-section { background: var(--mintcream); padding-block: var(--section-y); }
+.hero-inner { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-9); align-items: center; }
+.hero-title { font-size: clamp(2.5rem, 1.2rem + 5vw, 4.5rem); line-height: 1.05; color: var(--chocolate-ink); margin-bottom: var(--space-5); }
+.hero-desc { font-size: 1.0625rem; color: var(--text-muted); max-width: 44ch; margin-bottom: var(--space-6); }
+.hero-actions { display: flex; gap: var(--space-4); flex-wrap: wrap; }
+.hero-visual { display: flex; justify-content: center; }
+.hero-frame { position: relative; width: 100%; max-width: 440px; }
+.hero-frame::before { content: ''; position: absolute; inset: 12px -12px -12px 12px; border: 1px solid var(--chocolate); border-radius: var(--radius-sm); pointer-events: none; }
+.hero-img-placeholder { width: 100%; aspect-ratio: 4/5; background: var(--mint-100); border-radius: var(--radius-sm); position: relative; }
+
+/* Profil & Statistik */
+.profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-9); align-items: center; }
+.profile-text h2 { font-size: clamp(1.875rem, 1.3rem + 2.2vw, 2.75rem); }
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); }
+.stat-item { text-align: center; padding: var(--space-5); background: var(--mintcream); border: 1px solid var(--line); border-radius: var(--radius-md); }
+.stat-angka { font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; color: var(--chocolate); margin: 0 0 var(--space-1); }
+.stat-label { font-size: 0.875rem; color: var(--text-muted); margin: 0; }
+
+/* Program Cards */
+.programs-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-5); }
+.program-card { background: var(--mint-100); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-6); transition: border-color var(--dur-fast) var(--ease); }
+.program-card:hover { border-color: var(--chocolate-deep); }
+.program-num { font-family: var(--font-heading); font-size: 3rem; font-weight: 600; color: var(--chocolate); margin: 0 0 var(--space-4); line-height: 1; }
+.program-card h3 { font-size: 1.25rem; margin-bottom: var(--space-3); }
+.program-desc { font-size: 0.9375rem; color: var(--text-muted); margin-bottom: var(--space-5); }
+.program-link { color: var(--chocolate-deep); font-weight: 600; text-decoration: underline; text-underline-offset: 5px; font-size: 0.9375rem; }
+
+/* Keunggulan */
+.keunggulan-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-7); }
+.keunggulan-item { display: flex; gap: var(--space-5); }
+.keunggulan-num { font-family: var(--font-heading); font-size: 2.5rem; font-weight: 600; color: var(--chocolate); line-height: 1; flex-shrink: 0; }
+.keunggulan-line { width: 1px; height: 32px; background: var(--chocolate); margin-bottom: var(--space-3); }
+.keunggulan-body h3 { font-size: 1.25rem; margin-bottom: var(--space-2); }
+.keunggulan-body p { font-size: 0.9375rem; color: var(--text-muted); margin: 0; }
+
+/* Testimoni */
+.testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+.testi-card { margin: 0; padding: var(--space-6); background: var(--mint-100); border: 1px solid var(--line); border-radius: var(--radius-md); }
+.testi-quote p { font-family: var(--font-heading); font-size: 1.25rem; font-style: italic; color: var(--chocolate-ink); line-height: 1.5; margin: 0 0 var(--space-4); }
+.testi-nama { font-weight: 600; margin: 0 0 var(--space-1); font-size: 0.9375rem; }
+.testi-peran { font-size: 0.8125rem; color: var(--text-muted); margin: 0; }
+
+/* Blog */
+.blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+.blog-card { background: var(--mintcream); border: 1px solid var(--line); border-radius: var(--radius-md); overflow: hidden; }
+.blog-img-placeholder { width: 100%; aspect-ratio: 4/3; background: var(--mint-200); }
+.blog-body { padding: var(--space-5); }
+.blog-card h3 { font-size: 1.125rem; margin-bottom: var(--space-2); }
+.blog-card h3 a { color: var(--chocolate-ink); text-decoration: none; }
+.blog-card h3 a:hover { color: var(--chocolate-deep); }
+.blog-desc { font-size: 0.875rem; color: var(--text-muted); margin-bottom: var(--space-2); }
+.blog-meta { font-size: 0.8125rem; color: var(--text-muted); margin: 0; }
+
+/* CTA */
+.cta-section { text-align: center; }
+
+/* Responsive */
+@media (max-width: 1199.98px) {
+  .programs-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 991.98px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-visual { order: -1; }
+  .hero-frame { max-width: 100%; }
+  .profile-grid { grid-template-columns: 1fr; }
+  .keunggulan-list { grid-template-columns: 1fr; gap: var(--space-5); }
+  .testi-grid { grid-template-columns: 1fr 1fr; }
+  .blog-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 575.98px) {
+  .programs-grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .testi-grid { grid-template-columns: 1fr; }
+  .blog-grid { grid-template-columns: 1fr; }
+  .hero-actions { flex-direction: column; }
+}
+</style>

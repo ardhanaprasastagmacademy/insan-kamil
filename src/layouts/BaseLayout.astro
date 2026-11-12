@@ -1,0 +1,67 @@
+---
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import FloatingActions from '../components/FloatingActions.astro';
+import { site } from '../data/site.js';
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/utilities.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  canonical?: string;
+}
+
+const { title, description = 'Website resmi Pondok Pesantren Insan Kamil', ogImage = '/images/og-image.jpg', canonical } = Astro.props;
+const canonicalUrl = canonical || new URL(Astro.url.pathname, Astro.site).toString();
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'EducationalOrganization',
+  name: site.name,
+  alternateName: site.shortName,
+  url: 'https://insankamil.ac.id',
+  logo: 'https://insankamil.ac.id/images/logo.svg',
+  description: site.description,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.address,
+    addressRegion: 'Jawa Barat',
+    addressCountry: 'ID'
+  },
+  telephone: `+${site.waNumber}`,
+  sameAs: [
+    site.social.instagram,
+    site.social.facebook,
+    site.social.youtube
+  ]
+};
+---
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title} | Pondok Pesantren Insan Kamil</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonicalUrl} />
+  <meta property="og:title" content={`${title} | Pondok Pesantren Insan Kamil`} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <slot name="head" />
+</head>
+<body>
+  <Navbar />
+  <main id="main-content">
+    <slot />
+  </main>
+  <Footer />
+  <FloatingActions />
+</body>
+</html>

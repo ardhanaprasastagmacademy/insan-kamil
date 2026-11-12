@@ -1,0 +1,186 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { getCollection } from 'astro:content';
+
+const bibits = await getCollection('bibit');
+
+const faqs = [
+  { q: 'Apa metode perbanyakan bibit yang digunakan?', a: 'Kami menggunakan dua metode: okulasi dan sambung pucuk (grafting). Kedua metode ini menghasilkan tanaman yang berbuah lebih cepat (2-4 tahun) dan sesuai varietas induknya.' },
+  { q: 'Bagaimana cara pemesanan dalam jumlah besar?', a: 'Untuk pembelian 10 bibit ke atas, Anda mendapat harga partai yang lebih hemat. Hubungi kami via WhatsApp untuk pemesanan dan pengiriman.' },
+  { q: 'Apakah bibit bisa dikirim ke luar kota?', a: 'Ya, bibit dapat dikirim ke seluruh Jawa menggunakan pengemas khusus untuk menjaga bibit tetap segar. Hubungi kami untuk estimasi ongkir.' },
+  { q: 'Apakah ada garansi kualitas bibit?', a: 'Bibit yang kami jual dijamin sesuai varietas yang dipesan, sehat, dan bebas hama. Jika ada ketidaksesuaian, kami akan mengganti bibit.' },
+];
+---
+<BaseLayout title="Bibit Alpukat" description="Bibit alpukat okulasi dan sambung pucuk varietas unggul dari Pondok Pesantren Insan Kamil. Aligator, Miki, Kendil, dan lebih banyak.">
+  <div class="container" style="padding-top:var(--space-4);">
+    <Breadcrumb items={[{ label: 'Program', href: '/program/' }, { label: 'Bibit Alpukat' }]} />
+  </div>
+
+  <section>
+    <div class="container">
+      <span class="eyebrow">Pembibitan</span>
+      <h1>Bibit Alpukat Unggul</h1>
+      <span style="display:block;width:48px;height:2px;background:var(--chocolate);margin:var(--space-3) 0 var(--space-5);"></span>
+      <p class="answer-box">Bibit alpukat okulasi dan sambung pucuk dari lahan pembibitan Pondok Pesantren Insan Kamil. Tersedia varietas unggul Aligator, Miki, dan Kendil. Bibit siap tanam, terjamin sesuai varietas, cocok untuk petani, pehobi, dan reseller. Harga spesial untuk pembelian partai.</p>
+    </div>
+  </section>
+
+  <!-- Katalog -->
+  <section class="bg-mint">
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow">Katalog Varietas</span>
+        <h2>Varietas Tersedia</h2>
+        <span class="accent-line"></span>
+      </div>
+      <div class="bibit-grid">
+        {bibits.map(b => (
+          <article class="produk-card">
+            <div class="produk-img" role="img" aria-label={`Bibit alpukat ${b.data.varietas}`}></div>
+            <div class="produk-body">
+              <div class="produk-header">
+                <h3>{b.data.varietas}</h3>
+                <span class={`stok-badge ${b.data.stok === 'tersedia' ? 'stok-ok' : 'stok-habis'}`}>
+                  {b.data.stok === 'tersedia' ? 'Tersedia' : 'Habis'}
+                </span>
+              </div>
+              <p class="produk-meta">Tinggi {b.data.tinggi} · Berbuah {b.data.usiaBerbuah}</p>
+              <p class="produk-ciri">{b.data.ciri}</p>
+              <p class="produk-harga">Rp {b.data.harga.toLocaleString('id-ID')} / bibit</p>
+              {b.data.hargaPartai && b.data.hargaPartai.length > 0 && (
+                <div class="harga-partai">
+                  <p class="partai-label">Harga Partai</p>
+                  <table class="partai-table">
+                    <thead><tr><th>Jumlah</th><th>Harga/bibit</th></tr></thead>
+                    <tbody>
+                      {b.data.hargaPartai.map(hp => (
+                        <tr>
+                          <td>{hp.min}{hp.max ? `–${hp.max}` : '+'} bibit</td>
+                          <td>Rp {hp.harga.toLocaleString('id-ID')}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+              <a href={`https://wa.me/6281234567890?text=${encodeURIComponent(`Assalamu'alaikum, saya ingin memesan bibit alpukat ${b.data.varietas} dari website Pondok Pesantren Insan Kamil.`)}`}
+                 class="btn btn-primary" target="_blank" rel="noopener" style="margin-top:var(--space-4);width:100%;justify-content:center;">
+                Pesan Bibit Ini
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Info Metode & Pengiriman -->
+  <section>
+    <div class="container">
+      <div class="info-grid">
+        <div class="info-block">
+          <p class="info-num">01</p>
+          <h2>Metode Perbanyakan</h2>
+          <span style="display:block;width:48px;height:2px;background:var(--chocolate);margin:var(--space-3) 0 var(--space-4);"></span>
+          <p><strong>Okulasi</strong> — Penempelan mata tunas dari pohon induk unggul ke batang bawah yang kuat. Menghasilkan tanaman berbuah cepat dengan sifat identik induknya.</p>
+          <p><strong>Sambung pucuk</strong> — Penyatuan pucuk varietas unggul dengan batang bawah. Cocok untuk alpukat dan menghasilkan pertumbuhan yang seragam.</p>
+          <p>Seluruh bibit kami diproduksi dari pohon induk yang sudah terbukti produktif dan berbuah sesuai karakter varietas.</p>
+        </div>
+        <div class="info-block">
+          <p class="info-num">02</p>
+          <h2>Pengiriman dan Kemasan</h2>
+          <span style="display:block;width:48px;height:2px;background:var(--chocolate);margin:var(--space-3) 0 var(--space-4);"></span>
+          <p>Bibit dikemas dengan polybag terikat rapi, akar dilindungi media tanam lembab, dan batang distabilkan dengan bambu tipis. Kemasan karton untuk pengiriman jauh.</p>
+          <ul style="color:var(--text-muted);font-size:0.9375rem;">
+            <li>Pengiriman area Bogor: pickup atau antar langsung</li>
+            <li>Pengiriman antar kota: ekspedisi terpercaya</li>
+            <li>Jawa: estimasi 1-3 hari</li>
+            <li>Luar Jawa: konsultasikan dengan kami</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="bg-mint">
+    <div class="container container-narrow">
+      <div class="section-heading">
+        <span class="eyebrow">Pertanyaan Umum</span>
+        <h2>FAQ Bibit Alpukat</h2>
+        <span class="accent-line"></span>
+      </div>
+      <div class="faq-list">
+        {faqs.map((faq, i) => (
+          <div class="faq-item">
+            <button class="faq-btn" type="button" aria-expanded="false" aria-controls={`bfaq-${i}`}>
+              <span>{faq.q}</span><span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-answer" id={`bfaq-${i}`} hidden><p>{faq.a}</p></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-dark">
+    <div class="container cta-center">
+      <span class="eyebrow" style="color:rgba(245,255,250,0.7)">Pesan Sekarang</span>
+      <h2 style="color:var(--mintcream)">Siap Berkebun Alpukat?</h2>
+      <span style="display:block;width:48px;height:2px;background:var(--mintcream);margin:var(--space-3) auto var(--space-5);"></span>
+      <a href={`https://wa.me/6281234567890?text=${encodeURIComponent("Assalamu'alaikum, saya ingin memesan bibit alpukat dari website Pondok Pesantren Insan Kamil.")}`}
+         class="btn btn-on-dark" target="_blank" rel="noopener">Pesan via WhatsApp</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+.answer-box { font-size: 1.0625rem; max-width: 70ch; color: var(--text-muted); background: var(--mint-100); border-left: 3px solid var(--chocolate); padding: var(--space-5); border-radius: 0 var(--radius-md) var(--radius-md) 0; }
+.bibit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+.produk-card { background: var(--mintcream); border: 1px solid var(--line); border-radius: var(--radius-md); overflow: hidden; }
+.produk-img { width: 100%; aspect-ratio: 4/3; background: var(--mint-200); }
+.produk-body { padding: var(--space-5); }
+.produk-header { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-3); margin-bottom: var(--space-2); }
+.produk-card h3 { font-size: 1.125rem; margin: 0; }
+.stok-badge { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: 2px; border: 1px solid; white-space: nowrap; flex-shrink: 0; }
+.stok-ok { color: var(--chocolate-deep); border-color: var(--chocolate-deep); }
+.stok-habis { color: var(--text-muted); border-color: var(--text-muted); }
+.produk-meta { font-size: 0.875rem; color: var(--text-muted); margin: 0 0 var(--space-2); }
+.produk-ciri { font-size: 0.9375rem; color: var(--text-muted); margin: 0 0 var(--space-3); }
+.produk-harga { font-size: 1.25rem; font-weight: 700; color: var(--chocolate-deep); margin: 0 0 var(--space-3); }
+.harga-partai { background: var(--mint-100); border-radius: var(--radius-sm); padding: var(--space-3); margin-bottom: var(--space-3); }
+.partai-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0 0 var(--space-2); }
+.partai-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+.partai-table th { text-align: left; color: var(--text-muted); padding: 2px 0; font-weight: 600; border-bottom: 1px solid var(--line); }
+.partai-table td { padding: 4px 0; color: var(--chocolate-ink); }
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-9); }
+.info-block p { color: var(--text-muted); font-size: 0.9375rem; }
+.info-num { font-family: var(--font-heading); font-size: 3rem; color: var(--chocolate); line-height: 1; margin: 0 0 var(--space-3); }
+.info-block h2 { font-size: clamp(1.5rem, 2vw, 2rem); }
+.faq-list { border-top: 1px solid var(--line); }
+.faq-item { border-bottom: 1px solid var(--line); }
+.faq-btn { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); padding: var(--space-5) 0; background: transparent; border: 0; text-align: left; font-family: var(--font-body); font-size: 1rem; font-weight: 600; color: var(--chocolate-ink); cursor: pointer; }
+.faq-icon { position: relative; width: 20px; height: 20px; flex-shrink: 0; }
+.faq-icon::before, .faq-icon::after { content: ''; position: absolute; top: 50%; left: 50%; background: var(--chocolate-deep); transform: translate(-50%, -50%); transition: transform var(--dur) var(--ease), opacity var(--dur); }
+.faq-icon::before { width: 16px; height: 1.5px; }
+.faq-icon::after { width: 1.5px; height: 16px; }
+.faq-btn[aria-expanded='true'] .faq-icon::after { transform: translate(-50%, -50%) rotate(90deg); opacity: 0; }
+.faq-answer { padding-bottom: var(--space-5); }
+.faq-answer p { margin: 0; color: var(--text-muted); font-size: 0.9375rem; }
+.cta-center { text-align: center; }
+@media (max-width: 991.98px) { .bibit-grid { grid-template-columns: 1fr 1fr; } .info-grid { grid-template-columns: 1fr; gap: var(--space-5); } }
+@media (max-width: 575.98px) { .bibit-grid { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+document.querySelectorAll<HTMLButtonElement>('.faq-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const expanded = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!expanded));
+    const id = btn.getAttribute('aria-controls')!;
+    const el = document.getElementById(id)!;
+    if (expanded) el.setAttribute('hidden', ''); else el.removeAttribute('hidden');
+  });
+});
+</script>

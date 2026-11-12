@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+---
+<BaseLayout title="Kebijakan Privasi" description="Kebijakan privasi website Pondok Pesantren Insan Kamil.">
+  <div class="container" style="padding-top:var(--space-4);">
+    <Breadcrumb items={[{ label: 'Kebijakan Privasi' }]} />
+  </div>
+  <section>
+    <div class="container-narrow">
+      <h1>Kebijakan Privasi</h1>
+      <span style="display:block;width:48px;height:2px;background:var(--chocolate);margin:var(--space-3) 0 var(--space-6);"></span>
+      <p>Kami menghargai privasi Anda. Halaman ini menjelaskan bagaimana website Pondok Pesantren Insan Kamil menangani data yang Anda berikan.</p>
+      <h2>Formulir Kontak</h2>
+      <p>Data yang Anda isi pada formulir kontak (nama, keperluan, dan pesan) <strong>tidak disimpan di server kami</strong>. Data tersebut langsung diteruskan ke aplikasi WhatsApp di perangkat Anda sendiri, dan dikirimkan oleh Anda secara langsung kepada kami melalui WhatsApp.</p>
+      <h2>Tautan Eksternal</h2>
+      <p>Website ini mungkin berisi tautan ke website pihak ketiga (Instagram, Facebook, YouTube, Google Maps). Kami tidak bertanggung jawab atas kebijakan privasi website tersebut.</p>
+      <h2>Kontak</h2>
+      <p>Jika Anda memiliki pertanyaan tentang kebijakan privasi ini, hubungi kami melalui halaman <a href="/kontak/">Kontak</a>.</p>
+      <p style="font-size:0.875rem;color:var(--text-muted);margin-top:var(--space-7);">Terakhir diperbarui: November 2026</p>
+    </div>
+  </section>
+</BaseLayout>

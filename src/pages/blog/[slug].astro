@@ -1,0 +1,106 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(post => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const allPosts = await getCollection('blog');
+const related = allPosts
+  .filter(p => p.id !== post.id && p.data.kategori === post.data.kategori)
+  .slice(0, 3);
+
+const bodyText = post.body || '';
+const readTime = Math.max(1, Math.ceil(bodyText.split(/\s+/).length / 200));
+---
+<BaseLayout
+  title={post.data.judul}
+  description={post.data.deskripsi}
+>
+  <div class="container" style="padding-top:var(--space-4);">
+    <Breadcrumb items={[{ label: 'Blog', href: '/blog/' }, { label: post.data.judul }]} />
+  </div>
+
+  <article>
+    <header class="article-header">
+      <div class="container-narrow">
+        <span class="eyebrow">{post.data.kategori}</span>
+        <h1 class="article-title">{post.data.judul}</h1>
+        <div class="article-meta">
+          <span>{post.data.penulis}</span>
+          <span>·</span>
+          <span>{post.data.tanggal.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+          <span>·</span>
+          <span>{readTime} menit baca</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="article-featured-img" role="img" aria-label={post.data.judul}></div>
+    </div>
+
+    <div class="container-narrow article-content">
+      <Content />
+    </div>
+  </article>
+
+  {related.length > 0 && (
+    <section class="bg-mint">
+      <div class="container">
+        <div class="section-heading" style="text-align:left;">
+          <span class="eyebrow">Baca Juga</span>
+          <h2>Artikel Terkait</h2>
+          <span style="display:block;width:48px;height:2px;background:var(--chocolate);margin:var(--space-3) 0 var(--space-5);"></span>
+        </div>
+        <div class="related-grid">
+          {related.map(p => (
+            <article class="blog-card">
+              <div class="blog-img" role="img" aria-label={p.data.judul}></div>
+              <div class="blog-body">
+                <span class="eyebrow" style="font-size:0.7rem">{p.data.kategori}</span>
+                <h3><a href={`/blog/${p.id}/`}>{p.data.judul}</a></h3>
+                <p class="blog-desc">{p.data.deskripsi}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+        <div style="margin-top:var(--space-6);text-align:center;">
+          <a href="/blog/" class="btn btn-secondary">Lihat Semua Artikel</a>
+        </div>
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+.article-header { padding-block: var(--section-y) var(--space-6); }
+.article-title { font-size: clamp(2rem, 1.4rem + 2.5vw, 3rem); line-height: 1.1; margin-bottom: var(--space-4); }
+.article-meta { display: flex; flex-wrap: wrap; gap: var(--space-2); font-size: 0.875rem; color: var(--text-muted); margin: 0; }
+.article-featured-img { width: 100%; aspect-ratio: 16/9; background: var(--mint-200); border-radius: var(--radius-md); margin-bottom: var(--space-7); }
+.article-content { padding-block: var(--space-7); }
+:global(.article-content h2) { font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); margin-top: var(--space-7); }
+:global(.article-content h3) { font-size: clamp(1.25rem, 1rem + 0.8vw, 1.5rem); margin-top: var(--space-6); }
+:global(.article-content p) { font-size: 1.0625rem; line-height: 1.8; }
+:global(.article-content ul, .article-content ol) { font-size: 1.0625rem; line-height: 1.8; color: var(--text-muted); }
+:global(.article-content li) { margin-bottom: var(--space-2); }
+:global(.article-content strong) { color: var(--chocolate-ink); }
+:global(.article-content a) { color: var(--chocolate-deep); font-weight: 600; text-underline-offset: 5px; }
+.related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+.blog-card { background: var(--mintcream); border: 1px solid var(--line); border-radius: var(--radius-md); overflow: hidden; }
+.blog-img { width: 100%; aspect-ratio: 4/3; background: var(--mint-200); }
+.blog-body { padding: var(--space-5); }
+.blog-card h3 { font-size: 1.0625rem; margin-bottom: var(--space-2); }
+.blog-card h3 a { color: var(--chocolate-ink); text-decoration: none; }
+.blog-card h3 a:hover { color: var(--chocolate-deep); }
+.blog-desc { font-size: 0.875rem; color: var(--text-muted); margin: 0; }
+@media (max-width: 991.98px) { .related-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 575.98px) { .related-grid { grid-template-columns: 1fr; } }
+</style>
+

@@ -1,0 +1,206 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { getCollection } from 'astro:content';
+
+const pakets = await getCollection('katering');
+
+const faqs = [
+  { q: 'Berapa minimal pemesanan katering?', a: 'Minimal pemesanan bervariasi per paket: 30 pcs untuk snack box, 50 porsi untuk nasi box, dan 100 porsi untuk prasmanan.' },
+  { q: 'Berapa hari sebelumnya harus memesan?', a: 'Pemesanan minimal H-3 untuk nasi box dan snack box, H-7 untuk prasmanan dan tumpeng, terutama pada akhir pekan.' },
+  { q: 'Apakah katering bersertifikat halal?', a: 'Seluruh bahan baku kami bersumber dari pemasok halal terpercaya. Proses pengolahan dilakukan di dapur pesantren yang higienis dan dijaga kehalalan-nya.' },
+  { q: 'Apakah bisa request menu tertentu?', a: 'Ya, kami menerima request menu tertentu dengan pemberitahuan minimal H-7 untuk memastikan ketersediaan bahan.' },
+  { q: 'Apakah ada layanan antar?', a: 'Ya, kami menyediakan layanan antar untuk area Kabupaten Bogor dan sekitarnya. Biaya antar disesuaikan dengan jarak dan jumlah pesanan.' },
+];
+---
+<BaseLayout title="Katering" description="Layanan katering halal dari Pondok Pesantren Insan Kamil. Nasi box, prasmanan, tumpeng, dan snack box untuk berbagai acara.">
+  <div class="container" style="padding-top:var(--space-4);">
+    <Breadcrumb items={[{ label: 'Program', href: '/program/' }, { label: 'Katering' }]} />
+  </div>
+
+  <section>
+    <div class="container">
+      <span class="eyebrow">Layanan Katering</span>
+      <h1>Katering Halal Insan Kamil</h1>
+      <span style="display:block;width:48px;height:2px;background:var(--chocolate);margin:var(--space-3) 0 var(--space-5);"></span>
+      <p class="answer-box">Katering halal untuk berbagai acara — rapat, seminar, pernikahan, pengajian, arisan, dan sehari-hari. Dimasak segar oleh tim berpengalaman di dapur pesantren dengan standar kebersihan tinggi. Layanan tersedia di Kabupaten Bogor dan sekitarnya.</p>
+    </div>
+  </section>
+
+  <!-- Paket Menu -->
+  <section class="bg-mint">
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow">Pilihan Paket</span>
+        <h2>Paket dan Harga</h2>
+        <span class="accent-line"></span>
+      </div>
+      <div class="paket-grid">
+        {pakets.map(p => (
+          <article class="paket-card">
+            <div class="paket-img" role="img" aria-label={p.data.nama}></div>
+            <div class="paket-body">
+              <h3>{p.data.nama}</h3>
+              <p class="paket-desc">{p.data.deskripsi}</p>
+              <div class="paket-info">
+                <div><span class="info-label">Mulai dari</span><p class="paket-harga">Rp {p.data.hargaMulai.toLocaleString('id-ID')}</p></div>
+                <div><span class="info-label">Min. Pesan</span><p class="info-val">{p.data.minimalPesan}</p></div>
+              </div>
+              <div class="menu-list">
+                <p class="menu-label">Isi Paket</p>
+                <ul>{p.data.isiMenu.map(m => <li>{m}</li>)}</ul>
+              </div>
+              <a href={`https://wa.me/6281234567890?text=${encodeURIComponent(`Assalamu'alaikum, saya ingin menanyakan ${p.data.nama} dari website Pondok Pesantren Insan Kamil.`)}`}
+                 class="btn btn-primary" target="_blank" rel="noopener" style="margin-top:var(--space-4);width:100%;justify-content:center;">
+                Minta Penawaran
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Form Penawaran -->
+  <section>
+    <div class="container">
+      <div class="form-layout">
+        <div>
+          <span class="eyebrow">Pesan Sekarang</span>
+          <h2>Formulir Permintaan Penawaran</h2>
+          <span style="display:block;width:48px;height:2px;background:var(--chocolate);margin:var(--space-3) 0 var(--space-5);"></span>
+          <p style="color:var(--text-muted)">Isi formulir di bawah dan kami akan mengirimkan penawaran via WhatsApp.</p>
+          <div class="layanan-info">
+            <p><strong>Area Layanan:</strong> Kabupaten Bogor dan sekitarnya</p>
+            <p><strong>Pemesanan:</strong> Minimal H-3 (nasi box), H-7 (prasmanan/tumpeng)</p>
+            <p><strong>Pembayaran:</strong> Transfer bank atau tunai saat pengantaran</p>
+          </div>
+        </div>
+        <form id="form-katering" class="kontak-form" novalidate>
+          <div class="form-group">
+            <label for="k-nama">Nama / Instansi</label>
+            <input type="text" id="k-nama" required placeholder="Nama Anda atau nama instansi" />
+          </div>
+          <div class="form-group">
+            <label for="k-paket">Paket yang Diminati</label>
+            <select id="k-paket" required>
+              <option value="">Pilih paket</option>
+              {pakets.map(p => <option value={p.data.nama}>{p.data.nama}</option>)}
+              <option value="lainnya">Lainnya / belum tahu</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="k-porsi">Jumlah Porsi</label>
+              <input type="number" id="k-porsi" min="1" placeholder="misal: 100" />
+            </div>
+            <div class="form-group">
+              <label for="k-tanggal">Tanggal Acara</label>
+              <input type="date" id="k-tanggal" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="k-lokasi">Lokasi Pengantaran</label>
+            <input type="text" id="k-lokasi" placeholder="Alamat lengkap" />
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Kirim via WhatsApp</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="bg-mint">
+    <div class="container container-narrow">
+      <div class="section-heading">
+        <span class="eyebrow">Pertanyaan Umum</span>
+        <h2>FAQ Katering</h2>
+        <span class="accent-line"></span>
+      </div>
+      <div class="faq-list">
+        {faqs.map((faq, i) => (
+          <div class="faq-item">
+            <button class="faq-btn" type="button" aria-expanded="false" aria-controls={`kfaq-${i}`}>
+              <span>{faq.q}</span><span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-answer" id={`kfaq-${i}`} hidden><p>{faq.a}</p></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-dark">
+    <div class="container cta-center">
+      <span class="eyebrow" style="color:rgba(245,255,250,0.7)">Hubungi Kami</span>
+      <h2 style="color:var(--mintcream)">Siap Pesan Katering?</h2>
+      <span style="display:block;width:48px;height:2px;background:var(--mintcream);margin:var(--space-3) auto var(--space-5);"></span>
+      <a href={`https://wa.me/6281234567890?text=${encodeURIComponent("Assalamu'alaikum, saya ingin memesan layanan katering dari website Pondok Pesantren Insan Kamil.")}`}
+         class="btn btn-on-dark" target="_blank" rel="noopener">Hubungi via WhatsApp</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+.answer-box { font-size: 1.0625rem; max-width: 70ch; color: var(--text-muted); background: var(--mint-100); border-left: 3px solid var(--chocolate); padding: var(--space-5); border-radius: 0 var(--radius-md) var(--radius-md) 0; }
+.paket-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+.paket-card { background: var(--mintcream); border: 1px solid var(--line); border-radius: var(--radius-md); overflow: hidden; }
+.paket-img { width: 100%; aspect-ratio: 4/3; background: var(--mint-200); }
+.paket-body { padding: var(--space-5); }
+.paket-card h3 { font-size: 1.25rem; margin-bottom: var(--space-3); }
+.paket-desc { font-size: 0.9375rem; color: var(--text-muted); margin-bottom: var(--space-4); }
+.paket-info { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); padding: var(--space-4); background: var(--mint-100); border-radius: var(--radius-sm); margin-bottom: var(--space-4); }
+.info-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); display: block; }
+.paket-harga { font-size: 1.25rem; font-weight: 700; color: var(--chocolate-deep); margin: var(--space-1) 0 0; }
+.info-val { font-size: 1rem; font-weight: 600; margin: var(--space-1) 0 0; }
+.menu-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin: 0 0 var(--space-2); }
+.menu-list ul { margin: 0; padding-left: var(--space-5); font-size: 0.875rem; color: var(--text-muted); }
+.menu-list li { margin-bottom: 2px; }
+.form-layout { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-9); align-items: start; }
+.layanan-info { margin-top: var(--space-5); display: flex; flex-direction: column; gap: var(--space-2); }
+.layanan-info p { font-size: 0.9375rem; color: var(--text-muted); margin: 0; }
+.kontak-form { display: flex; flex-direction: column; gap: var(--space-5); }
+.form-group { display: flex; flex-direction: column; gap: var(--space-2); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+.form-group label { font-size: 0.9375rem; font-weight: 600; }
+.form-group input, .form-group select { background: var(--mint-100); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 12px 16px; font-family: var(--font-body); font-size: 1rem; }
+.form-group input:focus, .form-group select:focus { outline: none; border: 2px solid var(--chocolate-deep); }
+.faq-list { border-top: 1px solid var(--line); }
+.faq-item { border-bottom: 1px solid var(--line); }
+.faq-btn { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); padding: var(--space-5) 0; background: transparent; border: 0; text-align: left; font-family: var(--font-body); font-size: 1rem; font-weight: 600; color: var(--chocolate-ink); cursor: pointer; }
+.faq-icon { position: relative; width: 20px; height: 20px; flex-shrink: 0; }
+.faq-icon::before, .faq-icon::after { content: ''; position: absolute; top: 50%; left: 50%; background: var(--chocolate-deep); transform: translate(-50%, -50%); transition: transform var(--dur) var(--ease), opacity var(--dur); }
+.faq-icon::before { width: 16px; height: 1.5px; }
+.faq-icon::after { width: 1.5px; height: 16px; }
+.faq-btn[aria-expanded='true'] .faq-icon::after { transform: translate(-50%, -50%) rotate(90deg); opacity: 0; }
+.faq-answer { padding-bottom: var(--space-5); }
+.faq-answer p { margin: 0; color: var(--text-muted); font-size: 0.9375rem; }
+.cta-center { text-align: center; }
+@media (max-width: 991.98px) { .paket-grid, .form-layout { grid-template-columns: 1fr 1fr; gap: var(--space-5); } }
+@media (max-width: 575.98px) { .paket-grid, .form-layout, .form-row { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+const form = document.getElementById('form-katering') as HTMLFormElement | null;
+if (form) {
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const nama = (document.getElementById('k-nama') as HTMLInputElement).value.trim();
+    const paket = (document.getElementById('k-paket') as HTMLSelectElement).value;
+    const porsi = (document.getElementById('k-porsi') as HTMLInputElement).value;
+    const tanggal = (document.getElementById('k-tanggal') as HTMLInputElement).value;
+    const lokasi = (document.getElementById('k-lokasi') as HTMLInputElement).value.trim();
+    const text = `Assalamu'alaikum, saya ${nama || 'ingin'} memesan katering ${paket || ''} dari website Pondok Pesantren Insan Kamil.\n\nDetail:\n- Paket: ${paket || '-'}\n- Jumlah: ${porsi || '-'} porsi\n- Tanggal: ${tanggal || '-'}\n- Lokasi: ${lokasi || '-'}`;
+    window.open(`https://wa.me/6281234567890?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+  });
+}
+document.querySelectorAll<HTMLButtonElement>('.faq-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const expanded = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!expanded));
+    const id = btn.getAttribute('aria-controls')!;
+    const el = document.getElementById(id)!;
+    if (expanded) el.setAttribute('hidden', ''); else el.removeAttribute('hidden');
+  });
+});
+</script>
